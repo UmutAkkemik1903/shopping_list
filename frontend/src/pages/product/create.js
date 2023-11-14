@@ -8,24 +8,25 @@ import baseUrl from '../../backend/baseUrl';
 import '../../css/form.css'
 function CategoryCreate(props){
     const [api, contextHolder] = notification.useNotification();
-    const createCategorySuccess = (type) => {
+    const createProductSuccess = (type) => {
         api[type]({
-            message: 'Kategori',
+            message: 'Ürün',
             description:
-                'Kategori eklendi',
+                'Ürün eklendi',
         });
     };
-    const createCategoryWarning = (type) => {
+    const createProductWarning = (type) => {
         api[type]({
-            message: 'Kategori',
+            message: 'Ürün',
             description:
-                'Kategori eklenemedi',
+                'Ürün eklenemedi',
         });
     };
         const handleSubmit = (values, {resetForm, setSubmitting}) => {
             const data = new FormData();
-            data.append('category_name',values.category_name);
-            axios.post(baseUrl+'category', data,
+            data.append('product_name',values.product_name);
+            data.append('price',values.price);
+            axios.post(baseUrl+'product', data,
                 {
                     headers: {
                         'Authorization': 'Bearer'
@@ -33,28 +34,30 @@ function CategoryCreate(props){
                 }).then((res) => {
                     resetForm({});
                     setSubmitting(false);
-                    createCategorySuccess('success')
+                    createProductSuccess('success')
             }).catch((err => {
-                createCategoryWarning('error')
+                createProductWarning('error')
             }))
 
         }
     return(
         <>
             <div className="create-home">
-                <NavLink to='../kategori' className="desit"><i class="bi bi-arrow-90deg-left ccc">Geri Dön</i></NavLink>
+                <NavLink to='../urunler' className="desit"><i class="bi bi-arrow-90deg-left ccc">Geri Dön</i></NavLink>
                 <hr/>
                 {contextHolder}
             <div className="create">
             
                 <Formik
                     initialValues={{
-                        category_name:'',
+                        product_name:'',
+                        price:'',
                     }}
                     onSubmit={handleSubmit}
                     validationSchema={
                         Yup.object().shape({
-                            category_name:Yup.string().required('Kategori Adı Zorunludur'),
+                            product_name:Yup.string().required('Ürün Adı Zorunludur'),
+                            price:Yup.number().required('Ürün Adı Zorunludur'),
                         })
                     }
                 >
@@ -80,20 +83,38 @@ function CategoryCreate(props){
                 >
                     <Form.Item
                         className="form_create"
-                        label="Kategori Adı"
-                        name="category_name"
+                        label="Ürün Adı"
+                        name="product_name"
                         rules={[
                             {
                                 required: true,
-                                message: 'Lütfen kategori adını boş bırakmayın!',
+                                message: 'Lütfen ürün adını boş bırakmayın!',
                             },
                         ]}
                     >
                         <Input
-                            value={values.category_name}
-                            onChange={handleChange('category_name')}
+                            value={values.product_name}
+                            onChange={handleChange('product_name')}
                         />
-                        {(errors.category_name && touched.category_name) && <p className="form-error">{errors.category_name}</p>}
+                        {(errors.product_name && touched.product_name) && <p className="form-error">{errors.product_name}</p>}
+                    </Form.Item>
+                    <Form.Item
+                        className="form_create"
+                        label="Ürün Fiyatı"
+                        name="price"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Lütfen fiyat alanını boş bırakmayın!',
+                            },
+                        ]}
+                    >
+                        <Input
+                            type='number'
+                            value={values.price}
+                            onChange={handleChange('price')}
+                        />
+                        {(errors.price && touched.price) && <p className="form-error">{errors.price}</p>}
                     </Form.Item>
                     <Form.Item
                         wrapperCol={{

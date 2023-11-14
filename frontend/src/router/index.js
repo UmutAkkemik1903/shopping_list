@@ -4,6 +4,8 @@ import Category from '../pages/category';
 import CategoryCreate from '../pages/category/create';
 import CategoryEdit from '../pages/category/edit';
 import Product from '../pages/product';
+import ProductCreate from '../pages/product/create';
+import ProductEdit from '../pages/product/edit';
 import List from '../pages/shopping_list';
 const routes=
 [
@@ -30,6 +32,14 @@ const routes=
            {
             path: 'urunler',
             element:<Product />
+           },
+           {
+            path: 'urun-ekle',
+            element:<ProductCreate />
+            },
+           {
+            path: 'urun-duzenle/:id',
+            element:<ProductEdit />
            },
            {
             path: 'alısveris-listesi',

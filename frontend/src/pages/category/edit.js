@@ -1,5 +1,5 @@
 import {Button, Form, Input, notification} from 'antd';
-import '../../css/category.css'
+import '../../css/form.css'
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {useEffect, useState} from "react";
@@ -52,11 +52,11 @@ const CategoryEdit = (props) => {
     };
     return (
         <>
-            <div className="category-create-home">
+            <div className="create-home">
                 <NavLink to='../kategori'><RollbackOutlined style={{fontSize:'15px'}} /> <i style={{marginTop:'5px'}}>Geri Dön</i></NavLink>
                 <hr/>
                                 {contextHolder}
-                <div className="category-create">
+                <div className="create">
                 
                     <Formik
                         initialValues={{
@@ -100,7 +100,7 @@ const CategoryEdit = (props) => {
                     >
 
                         <Form.Item
-                            className="category_form_create"
+                            className="form_create"
                             label="Kategori Adı"
                             name="category_name"
                             rules={[

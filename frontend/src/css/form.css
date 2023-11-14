@@ -1,18 +1,18 @@
-.category-create-button{
+.create-button{
     float: right;
     margin-bottom: 15px;
 }
-.category-create-label{
+.create-label{
     font-size: 25px;
     border-bottom: 0.5px solid;
     padding: 15px;
 }
-.category_form_create{
+.form_create{
 
     display:flex;
     margin-top:30px
 }
-.category_form_create Input{
+.form_create Input{
     min-width:400px;
 }
 
