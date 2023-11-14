@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('category_name');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->timestamp('deleted_at');
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

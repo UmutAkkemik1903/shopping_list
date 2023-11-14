@@ -1,0 +1,30 @@
+.category-create-button{
+    float: right;
+    margin-bottom: 15px;
+}
+.category-create-label{
+    font-size: 25px;
+    border-bottom: 0.5px solid;
+    padding: 15px;
+}
+.category_form_create{
+
+    display:flex;
+    margin-top:30px
+}
+.category_form_create Input{
+    min-width:400px;
+}
+
+.desit{
+    display: flexbox;
+    width: 150px;
+    font-size: 15px;
+    padding: 7px 4px;
+    text-decoration: none;
+    letter-spacing: 3px;
+    word-spacing: -3px;
+    color: black;
+
+    
+}
