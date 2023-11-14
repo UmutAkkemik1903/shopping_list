@@ -21,11 +21,15 @@ import {
                 render:(_,record) => (<p>{record.price}₺</p>)
               },
             {
+                title: 'Kategori Adı',
+                dataIndex: 'category_name',
+                key: 'category_name',
+            },
+            {
               title: '',
               key: 'action',
               render: (_, record) => (
                 <Space size="middle">
-                  <NavLink to={`/urun-duzenle/${record.id}`}><a><EditOutlined style={{color:"orange"}} /></a></NavLink>
                   <Popconfirm
                               title="Kategori"
                               description="Silmek istediğinize emin misiniz?"

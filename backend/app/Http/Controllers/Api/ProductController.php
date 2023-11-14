@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductCategoryModel;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
 
@@ -14,12 +15,22 @@ class ProductController extends Controller
     {
         $this->nowDate = date('Y-m-d H:i:s');
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $productList = ProductModel::where(['deleted_at'=>null])->get();
+        $productList = ProductCategoryModel::where(['product.deleted_at' => null])->join('product',function ($on1){
+            $on1->on('product.id','=','product_category.product_id');
+        })->join('category',function ($on1){
+            $on1->on('category.id','=','product_category.category_id');
+        })->get([
+            'product.id as id',
+            'category.category_name as category_name',
+            'product.product_name as product_name',
+            'product.price as price',
+        ]);
         return $productList;
     }
 
@@ -28,10 +39,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request){
-            ProductModel::insert([
-                'product_name'=>$request->input('product_name'),
-                'price'=>$request->input('price'),
+        if ($request) {
+            $id = ProductModel::insertGetId([
+                'product_name' => $request->input('product_name'),
+                'price' => $request->input('price'),
+                'created_at' => $this->nowDate,
+            ]);
+            ProductCategoryModel::insert([
+                'product_id' => $id,
+                'category_id' => $request->input('category_id'),
                 'created_at' => $this->nowDate,
             ]);
         }
@@ -42,7 +58,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        if($id){
+        if ($id) {
             $data = ProductModel::where(['id' => $id])->get();
             return $data;
         }
@@ -53,10 +69,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if($request){
+        if ($request) {
             ProductModel::where(['id' => $id])->update([
-                'product_name'=>$request->input('product_name'),
-                'price'=>$request->input('price'),
+                'product_name' => $request->input('product_name'),
+                'price' => $request->input('price'),
                 'updated_at' => $this->nowDate,
             ]);
         }
@@ -68,6 +84,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         ProductModel::where(['id' => $id])->update(['deleted_at' => $this->nowDate]);
-
+        ProductCategoryModel::where(['product_id' => $id])->update(['deleted_at' => $this->nowDate]);
     }
 }

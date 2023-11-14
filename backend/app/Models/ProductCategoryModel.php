@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ListModel extends Model
+class ProductCategoryModel extends Model
 {
-    protected $table = 'shopping_list';
+    protected $table = 'product_category';
 }

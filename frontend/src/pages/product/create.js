@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Form, Input,notification } from 'antd';
+import { Button, Form, Input,notification,Select } from 'antd';
 import axios from "axios";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import baseUrl from '../../backend/baseUrl';
 import '../../css/form.css'
 function CategoryCreate(props){
+    const { Option } = Select;
+    const [searchText, setSearchText] = useState('');
     const [api, contextHolder] = notification.useNotification();
+    const [category,setCategory] = useState([]);
+    const [refresh, setRefresh] = useState(false);
     const createProductSuccess = (type) => {
         api[type]({
             message: 'Ürün',
@@ -22,9 +26,29 @@ function CategoryCreate(props){
                 'Ürün eklenemedi',
         });
     };
+    useEffect(()=>{
+        axios.get(baseUrl+'category',{
+            headers:{
+                'Authorization':'Bearer'
+            }
+        }).then((res)=>{
+            setCategory(res.data)
+        }).catch(e=>console.log(e))
+    },[refresh])
+    const handleSearch = (value) => {
+        setSearchText(value);
+    };
+
+    const filterOptions = (inputValue, option) => {
+        if (option && option.children) {
+            return option.children.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
+    };
         const handleSubmit = (values, {resetForm, setSubmitting}) => {
             const data = new FormData();
             data.append('product_name',values.product_name);
+            data.append('category_id',values.category_id);
             data.append('price',values.price);
             axios.post(baseUrl+'product', data,
                 {
@@ -51,6 +75,7 @@ function CategoryCreate(props){
                 <Formik
                     initialValues={{
                         product_name:'',
+                        category_id:'',
                         price:'',
                     }}
                     onSubmit={handleSubmit}
@@ -62,6 +87,7 @@ function CategoryCreate(props){
                     }
                 >
                     {({
+                          setFieldValue,
                           values,
                           handleChange,
                           handleSubmit,
@@ -81,6 +107,27 @@ function CategoryCreate(props){
                     }}
                     autoComplete="off"
                 >
+                    <Form.Item
+                        className="form_create"
+                        label="Kategoriye Ekle"
+                        name="category_name"
+                    >
+                        <Select
+                            style={{minWidth:'400px'}}
+                            placeholder="Kategori seçin"
+                            showSearch
+                            filterOption={filterOptions}
+                            onSearch={handleSearch}
+                            value={values.category_id}
+                            onChange={value => setFieldValue('category_id', value)}
+                        >
+                            {category.map((option) => (
+                                <Option key={option.id} value={option.id}>
+                                    {option.category_name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
                     <Form.Item
                         className="form_create"
                         label="Ürün Adı"

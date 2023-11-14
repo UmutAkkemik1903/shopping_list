@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         if($id){
-            return  CategoryModel::where(['id' => $id])->get();
+            return CategoryModel::where(['id' => $id])->get();
         }
     }
 

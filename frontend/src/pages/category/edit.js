@@ -34,7 +34,8 @@ const CategoryEdit = (props) => {
                 Authorization: 'Bearer ' + props
             }
         }).then((res) => {
-                setCategory(res.data[0]);
+                setCategory(res.data[0])
+                console.log(res.data[0])
 
         }).catch(e => console.log(e));
 
@@ -57,10 +58,10 @@ const CategoryEdit = (props) => {
                 <hr/>
                                 {contextHolder}
                 <div className="create">
-                
+
                     <Formik
                         initialValues={{
-                            category_name:category.category_name,
+                            category_name:category.category_name
                         }}
                         enableReinitialize
                         onSubmit={handleSubmit}
@@ -102,7 +103,7 @@ const CategoryEdit = (props) => {
                         <Form.Item
                             className="form_create"
                             label="Kategori Adı"
-                            name="category_name"
+                            name="asd"
                             rules={[
                                 {
                                     required: true,
